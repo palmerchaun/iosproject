@@ -1,12 +1,19 @@
 # iosproject
-
-Game ideas:
-  Racing game
-    Graphics
-      2D
-    Mechanics/rules
-      Portrait orientation, racing upwards
-      Swipe left/right to move
-      Auto accelerate
-      Running into obstacles sets velocity back to zero so racer must start accelerating again.
-    
+<h3>Game ideas</h3>
+  <ul>
+    <li>Racing game
+        <ul>
+          <li>Graphics
+            <ul><li>2D</li></ul>
+          </li>
+          <li>Mechanics/rules
+            <ul>
+              <li>Portrait orientation, racing upwards</li>
+              <li>Swipe left/right to move</li>
+              <li>Auto accelerate</li>
+              <li>Running into obstacles sets velocity back to zero so racer must start accelerating again.</li>
+            </ul>
+          </li>
+      </ul>
+  </li>
+  </ul>
