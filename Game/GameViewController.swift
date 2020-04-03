@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import CoreData
 
 class GameViewController: UIViewController {
 
