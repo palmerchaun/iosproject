@@ -11,8 +11,8 @@ import GameplayKit
 
 class GameScene: SKScene {
     
-    private var spinnyNode : SKShapeNode?
-    private var asteroid : SKShapeNode?
+    private var spinnyNode : SKSpriteNode?
+    private var asteroid : SKSpriteNode?
     private var created = false
     private var vel = 1.0
     private var moving = false
@@ -20,18 +20,13 @@ class GameScene: SKScene {
     
     override func didMove(to view: SKView) {
         // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        self.asteroid = SKShapeNode.init(circleOfRadius: w)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-        }
+        self.spinnyNode = SKSpriteNode.init(imageNamed: "ship")
+        spinnyNode?.size = CGSize(width: 120, height: 200)
+        self.asteroid = SKSpriteNode.init(imageNamed: "meteor")
+        asteroid?.size = CGSize(width: 250, height: 160)
         
         if let asteroid = self.asteroid {
-            asteroid.fillColor = UIColor.red
+            asteroid.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
         }
     }
     
