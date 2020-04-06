@@ -63,6 +63,9 @@
                         <viewLayoutGuide key="safeArea" id="4qk-I5-YsI"/>
                     </view>
                     <navigationItem key="navigationItem" id="fgO-Nd-aBE"/>
+                    <connections>
+                        <outlet property="resume" destination="zTQ-i4-B7s" id="udm-lk-JcI"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>

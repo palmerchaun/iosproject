@@ -11,9 +11,11 @@ import CoreData
 
 class ViewController: UIViewController {
     
+    @IBOutlet weak var resume: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        resume.isEnabled = false
     }
     
 }
