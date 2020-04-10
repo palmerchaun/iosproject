@@ -12,7 +12,7 @@ import AVFoundation
 
 class GameScene: SKScene, AVAudioPlayerDelegate {
     
-    private var spinnyNode : SKSpriteNode?
+    private var ship : SKSpriteNode?
     private var asteroid : SKSpriteNode?
     private var created = false
     private var vel = 1.0
@@ -23,8 +23,8 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     override func didMove(to view: SKView) {
         // Create shape node to use during mouse interaction
-        self.spinnyNode = SKSpriteNode.init(imageNamed: "ship")
-        spinnyNode?.size = CGSize(width: 120, height: 200)
+        self.ship = SKSpriteNode.init(imageNamed: "ship")
+        ship?.size = CGSize(width: 120, height: 200)
         self.asteroid = SKSpriteNode.init(imageNamed: "meteor")
         asteroid?.size = CGSize(width: 250, height: 160)
         
@@ -34,17 +34,25 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-        if pos.x < spinnyNode!.position.x{
-            if abs(pos.x - spinnyNode!.position.x) > 20{
-                spinnyNode!.position.x -= 20
+        if pos.x < ship!.position.x{
+            if abs(pos.x - ship!.position.x) > 20{
+                ship!.position.x -= 20
             } else{
-                spinnyNode!.position.x = pos.x
+                ship!.position.x = pos.x
             }
-        } else if pos.x > spinnyNode!.position.x{
-            if abs(pos.x - spinnyNode!.position.x) > 20{
-                spinnyNode!.position.x += 20
+        } else if pos.x > ship!.position.x{
+            if abs(pos.x - ship!.position.x) > 20{
+                ship!.position.x += 20
             } else{
-                spinnyNode!.position.x = pos.x
+                ship!.position.x = pos.x
+            }
+        }
+    }
+    
+    func collisionDetection(){
+        if abs(ship!.position.x - asteroid!.position.x) < (ship!.size.width + asteroid!.size.width) * 0.25 {
+            if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
+                vel = 2
             }
         }
     }
@@ -70,13 +78,12 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         thePos = nil
     }
     
-    
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if !created{
-            self.addChild(spinnyNode!)
+            self.addChild(ship!)
             self.addChild(asteroid!)
-            spinnyNode!.position = CGPoint(x: 0, y: -400)
+            ship!.position = CGPoint(x: 0, y: -400)
             asteroid!.position = CGPoint(x: 0, y: 1000)
             created = true
         }
@@ -90,9 +97,10 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             asteroid!.position.x = CGFloat(Int.random(in: -200...200))
         }
         
-        if sqrt(pow(Double(asteroid!.position.x - spinnyNode!.position.x), 2.0) + pow(Double(asteroid!.position.y - spinnyNode!.position.y), 2)) < 155{
-            vel = 2
-        }
+        collisionDetection()
+//        if sqrt(pow(Double(asteroid!.position.x - ship!.position.x), 2.0) + pow(Double(asteroid!.position.y - ship!.position.y), 2)) < 155{
+//            vel = 2
+//        }
         vel += 0.1
     }
 }
