@@ -49,12 +49,43 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         }
     }
     
+    func moveShip(){
+        if moving {
+            if thePos!.x > 300{
+                thePos!.x = 300
+            } else if thePos!.x < -300{
+                thePos!.x = -300
+            }
+            touchMoved(toPoint: thePos!)
+        }
+    }
+    
+    func moveAsteroid(){
+        asteroid!.position.y -= CGFloat(vel)
+        if asteroid!.position.y < -900{
+            asteroid!.position.y = 900
+            asteroid!.position.x = CGFloat(Int.random(in: -350...350))
+        }
+    }
+    
     func collisionDetection(){
         if abs(ship!.position.x - asteroid!.position.x) < (ship!.size.width + asteroid!.size.width) * 0.25 {
             if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
                 vel = 2
             }
         }
+    }
+    
+    func setup(){
+        ship!.position = CGPoint(x: 0, y: -400)
+        asteroid!.position = CGPoint(x: 0, y: 1000)
+    }
+    
+    func create(){
+        self.addChild(ship!)
+        self.addChild(asteroid!)
+        setup()
+        created = true
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -81,26 +112,13 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         if !created{
-            self.addChild(ship!)
-            self.addChild(asteroid!)
-            ship!.position = CGPoint(x: 0, y: -400)
-            asteroid!.position = CGPoint(x: 0, y: 1000)
-            created = true
+            create()
         }
         
-        if moving {
-            touchMoved(toPoint: thePos!)
-        }
-        asteroid!.position.y -= CGFloat(vel)
-        if asteroid!.position.y < -1000{
-            asteroid!.position.y = 1000
-            asteroid!.position.x = CGFloat(Int.random(in: -200...200))
-        }
-        
+        moveShip()
+        moveAsteroid()
         collisionDetection()
-//        if sqrt(pow(Double(asteroid!.position.x - ship!.position.x), 2.0) + pow(Double(asteroid!.position.y - ship!.position.y), 2)) < 155{
-//            vel = 2
-//        }
+
         vel += 0.1
     }
 }
