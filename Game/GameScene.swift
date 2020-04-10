@@ -8,8 +8,9 @@
 
 import SpriteKit
 import GameplayKit
+import AVFoundation
 
-class GameScene: SKScene {
+class GameScene: SKScene, AVAudioPlayerDelegate {
     
     private var spinnyNode : SKSpriteNode?
     private var asteroid : SKSpriteNode?
@@ -17,6 +18,8 @@ class GameScene: SKScene {
     private var vel = 1.0
     private var moving = false
     private var thePos: CGPoint?
+    
+    
     
     override func didMove(to view: SKView) {
         // Create shape node to use during mouse interaction

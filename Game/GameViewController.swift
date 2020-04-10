@@ -10,9 +10,13 @@ import UIKit
 import SpriteKit
 import GameplayKit
 import CoreData
+import AVFoundation
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, AVAudioPlayerDelegate {
 
+    private var music: AVAudioPlayer?
+    private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,6 +34,16 @@ class GameViewController: UIViewController {
             
             view.showsFPS = true
             view.showsNodeCount = true
+        }
+        
+        if let asset = NSDataAsset(name: musicOptions.randomElement()!){
+            do{
+                music = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
+                music?.numberOfLoops = -1
+                music?.play()
+            }catch{
+                print("error")
+            }
         }
     }
 

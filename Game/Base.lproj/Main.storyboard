@@ -55,6 +55,7 @@
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
                                 <state key="normal" title="New Game"/>
                                 <connections>
+                                    <action selector="newGamePressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nVE-CA-sPo"/>
                                     <segue destination="tci-Xs-kBV" kind="show" id="Vcy-SB-LmP"/>
                                 </connections>
                             </button>
