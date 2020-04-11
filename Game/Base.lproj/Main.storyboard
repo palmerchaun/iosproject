@@ -28,6 +28,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
                                 <state key="normal" title="Resume Game"/>
+                                <connections>
+                                    <segue destination="tci-Xs-kBV" kind="show" identifier="segue2" id="YVg-RY-ZB3"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNT-pd-XqX">
                                 <rect key="frame" x="127.53284671533129" y="577" width="158" height="48.999999999999943"/>
@@ -103,12 +106,50 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D3W-XH-2xn">
+                                <rect key="frame" x="147" y="115" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="redSquare"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ill-Qv-01e">
+                                <rect key="frame" x="197" y="115" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="orangeSquare"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wA9-xw-UVx">
+                                <rect key="frame" x="246" y="115" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="yellowSquare"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PsP-HA-e8C">
+                                <rect key="frame" x="295" y="115" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="lightGreenSquare"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cck-Bh-nVg">
+                                <rect key="frame" x="344" y="115" width="35" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button" image="greenSquare"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Fuel Level:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TPS-GD-LAK">
+                                <rect key="frame" x="36" y="120" width="93" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="4yy-2Z-nZS"/>
                     </view>
                     <navigationItem key="navigationItem" id="nJK-ap-rAd"/>
                     <connections>
+                        <outlet property="green" destination="cck-Bh-nVg" id="g2j-R9-iDN"/>
+                        <outlet property="lightGreen" destination="PsP-HA-e8C" id="CYp-mp-r1K"/>
+                        <outlet property="orange" destination="ill-Qv-01e" id="iiL-BI-x7x"/>
+                        <outlet property="red" destination="D3W-XH-2xn" id="YWo-Bq-KbR"/>
+                        <outlet property="score" destination="duJ-Go-GV5" id="fDQ-OA-UmJ"/>
+                        <outlet property="yellow" destination="wA9-xw-UVx" id="eQX-wN-XeG"/>
                         <segue destination="VLh-Ws-n5R" kind="unwind" identifier="unwindHome" unwindAction="unwindToHomeWithSegue:" id="md1-LZ-hXR"/>
                     </connections>
                 </viewController>
@@ -118,4 +159,14 @@
             <point key="canvasLocation" x="1826.0869565217392" y="75"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="greenSquare" width="55" height="52"/>
+        <image name="lightGreenSquare" width="54" height="52"/>
+        <image name="orangeSquare" width="58" height="54"/>
+        <image name="redSquare" width="56" height="55"/>
+        <image name="yellowSquare" width="51" height="55"/>
+    </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="YVg-RY-ZB3"/>
+    </inferredMetricsTieBreakers>
 </document>

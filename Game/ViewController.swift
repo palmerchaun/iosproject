@@ -16,6 +16,8 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     private var menuMainPressButton: AVAudioPlayer?
     
     @IBOutlet weak var resume: UIButton!
+    var score = 10
+    var fuel = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,5 +46,18 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     @IBAction func newGamePressed(_ sender: Any) {
         menuMainSoundTrack?.stop()
         menuMainPressButton?.play()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segue2" {
+            let dest = segue.destination as! GameViewController
+            dest.scoreNum = score;
+            dest.fuel = fuel
+            //add fuel level and maybe damage level
+        }
+        else{
+            let dest = segue.destination as! GameViewController
+            dest.scoreNum = score;
+        }
     }
 }

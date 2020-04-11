@@ -14,11 +14,23 @@ import AVFoundation
 
 class GameViewController: UIViewController, AVAudioPlayerDelegate {
 
+    @IBOutlet weak var score: UILabel!
+    @IBOutlet weak var green: UIButton!
+    @IBOutlet weak var lightGreen: UIButton!
+    @IBOutlet weak var yellow: UIButton!
+    @IBOutlet weak var orange: UIButton!
+    @IBOutlet weak var red: UIButton!
+    
     private var music: AVAudioPlayer?
     private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
+    var fuel = 5
+    var scoreNum = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(scoreNum)
+        scoreNum += 1
+        score?.text = String(scoreNum)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -63,6 +75,8 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         let dest = segue.destination as! ViewController
         //save data
         dest.resume.isEnabled = true
+        dest.score = scoreNum
+        dest.fuel = fuel
     }
     
     override var shouldAutorotate: Bool {
