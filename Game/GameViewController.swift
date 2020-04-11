@@ -46,7 +46,25 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
             }
         }
     }
-
+    
+    @IBAction func pause(_ sender: Any) {
+        let alert = UIAlertController(title: "Paused", message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Home", style: .default, handler: {(action: UIAlertAction!) in self.back()}))
+        alert.addAction(UIAlertAction(title: "Resume", style: .default))
+        self.present(alert, animated: true)
+    }
+    
+    func back(){
+        //stop animation
+        self.performSegue(withIdentifier: "unwindHome", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dest = segue.destination as! ViewController
+        //save data
+        dest.resume.isEnabled = true
+    }
+    
     override var shouldAutorotate: Bool {
         return true
     }

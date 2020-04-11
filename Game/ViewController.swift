@@ -20,6 +20,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         resume.isEnabled = false
+        
         if let asset = NSDataAsset(name:"Main_menu_Fetch Quest"){
             do{
                 menuMainSoundTrack = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
@@ -37,6 +38,8 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
             }
         }
     }
+    
+    @IBAction func unwindToHome(segue: UIStoryboardSegue){}
     
     @IBAction func newGamePressed(_ sender: Any) {
         menuMainSoundTrack?.stop()

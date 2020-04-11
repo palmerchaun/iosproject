@@ -56,7 +56,7 @@
                                 <state key="normal" title="New Game"/>
                                 <connections>
                                     <action selector="newGamePressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nVE-CA-sPo"/>
-                                    <segue destination="tci-Xs-kBV" kind="show" id="Vcy-SB-LmP"/>
+                                    <segue destination="tci-Xs-kBV" kind="show" identifier="segue" id="Vcy-SB-LmP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -85,6 +85,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Pause"/>
+                                <connections>
+                                    <action selector="pause:" destination="tci-Xs-kBV" eventType="touchUpInside" id="L2d-BI-cKG"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duJ-Go-GV5">
                                 <rect key="frame" x="254" y="63" width="146" height="24"/>
@@ -105,8 +108,12 @@
                         <viewLayoutGuide key="safeArea" id="4yy-2Z-nZS"/>
                     </view>
                     <navigationItem key="navigationItem" id="nJK-ap-rAd"/>
+                    <connections>
+                        <segue destination="VLh-Ws-n5R" kind="unwind" identifier="unwindHome" unwindAction="unwindToHomeWithSegue:" id="md1-LZ-hXR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wis-aJ-oKE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="VLh-Ws-n5R" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1826.0869565217392" y="75"/>
         </scene>
