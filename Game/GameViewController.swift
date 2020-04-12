@@ -15,15 +15,23 @@ import AVFoundation
 class GameViewController: UIViewController, AVAudioPlayerDelegate {
 
     @IBOutlet weak var score: UILabel!
-    @IBOutlet weak var green: UIButton!
-    @IBOutlet weak var lightGreen: UIButton!
-    @IBOutlet weak var yellow: UIButton!
-    @IBOutlet weak var orange: UIButton!
-    @IBOutlet weak var red: UIButton!
+    @IBOutlet weak var greenFuel: UIButton!
+    @IBOutlet weak var lightGreenFuel: UIButton!
+    @IBOutlet weak var yellowFuel: UIButton!
+    @IBOutlet weak var orangeFuel: UIButton!
+    @IBOutlet weak var redFuel: UIButton!
+    
+    @IBOutlet weak var redDamage: UIButton!
+    @IBOutlet weak var orangeDamage: UIButton!
+    @IBOutlet weak var yellowDamage: UIButton!
+    @IBOutlet weak var lightGreenDamage: UIButton!
+    @IBOutlet weak var greenDamage: UIButton!
     
     private var music: AVAudioPlayer?
     private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
+    
     var fuel = 5
+    var damage = 5
     var scoreNum = 0
     
     override func viewDidLoad() {
@@ -77,6 +85,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         dest.resume.isEnabled = true
         dest.score = scoreNum
         dest.fuel = fuel
+        dest.damage = damage
     }
     
     override var shouldAutorotate: Bool {
