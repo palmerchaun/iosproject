@@ -16,10 +16,14 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     private var menuMainPressButton: AVAudioPlayer?
     
     @IBOutlet weak var resume: UIButton!
+    var score = 0
+    var fuel = 5
+    var damage = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
         resume.isEnabled = false
+        
         if let asset = NSDataAsset(name:"Main_menu_Fetch Quest"){
             do{
                 menuMainSoundTrack = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
@@ -38,8 +42,24 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
+    @IBAction func unwindToHome(segue: UIStoryboardSegue){}
+    
     @IBAction func newGamePressed(_ sender: Any) {
         menuMainSoundTrack?.stop()
         menuMainPressButton?.play()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "segue2" {
+            let dest = segue.destination as! GameViewController
+            dest.scoreNum = score;
+            dest.fuel = fuel
+            dest.damage = damage
+            //add fuel level and maybe damage level
+        }
+        else{
+            let dest = segue.destination as! GameViewController
+            dest.scoreNum = score;
+        }
     }
 }
