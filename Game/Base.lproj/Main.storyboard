@@ -17,14 +17,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Space Racer" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W6e-VW-fdc">
-                                <rect key="frame" x="43" y="93" width="329" height="108"/>
+                                <rect key="frame" x="42" y="93" width="329" height="108"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="54"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zTQ-i4-B7s">
-                                <rect key="frame" x="122.10218978102466" y="391" width="169.00000000000011" height="48.999999999999957"/>
+                                <rect key="frame" x="122" y="391" width="169.00000000000011" height="48.999999999999957"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
                                 <state key="normal" title="Resume Game"/>
@@ -33,27 +33,27 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNT-pd-XqX">
-                                <rect key="frame" x="127.53284671533129" y="577" width="158" height="48.999999999999943"/>
+                                <rect key="frame" x="128" y="577" width="158" height="48.999999999999943"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
                                 <state key="normal" title="Multiplayer?"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hi-Score:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3cH-lI-49U">
-                                <rect key="frame" x="158" y="216" width="100" height="29"/>
+                                <rect key="frame" x="157" y="216" width="100" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8hF-xW-bAW">
-                                <rect key="frame" x="201" y="262" width="15" height="29"/>
+                                <rect key="frame" x="199" y="262" width="15" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uf1-oV-RZ7">
-                                <rect key="frame" x="143.82481751825094" y="481" width="125" height="48.999999999999858"/>
+                                <rect key="frame" x="144" y="481" width="125" height="48.999999999999858"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
                                 <state key="normal" title="New Game"/>
@@ -176,17 +176,17 @@
                     </view>
                     <navigationItem key="navigationItem" id="nJK-ap-rAd"/>
                     <connections>
-                        <outlet property="green" destination="cck-Bh-nVg" id="g2j-R9-iDN"/>
                         <outlet property="greenDamage" destination="est-8m-EaX" id="yS9-Dt-bkC"/>
-                        <outlet property="lightGreen" destination="PsP-HA-e8C" id="CYp-mp-r1K"/>
+                        <outlet property="greenFuel" destination="cck-Bh-nVg" id="AgI-vp-3bj"/>
                         <outlet property="lightGreenDamage" destination="68W-70-oP2" id="2V3-CJ-Wel"/>
-                        <outlet property="orange" destination="ill-Qv-01e" id="iiL-BI-x7x"/>
+                        <outlet property="lightGreenFuel" destination="PsP-HA-e8C" id="ck4-5d-7ht"/>
                         <outlet property="orangeDamage" destination="UDP-Yl-6v1" id="sGf-Mw-KCB"/>
-                        <outlet property="red" destination="D3W-XH-2xn" id="YWo-Bq-KbR"/>
+                        <outlet property="orangeFuel" destination="ill-Qv-01e" id="kge-Ez-bj2"/>
                         <outlet property="redDamage" destination="pJv-hd-hn6" id="kqT-aK-RT9"/>
+                        <outlet property="redFuel" destination="D3W-XH-2xn" id="dnI-Pu-UkH"/>
                         <outlet property="score" destination="duJ-Go-GV5" id="fDQ-OA-UmJ"/>
-                        <outlet property="yellow" destination="wA9-xw-UVx" id="eQX-wN-XeG"/>
                         <outlet property="yellowDamage" destination="ldJ-jt-Txb" id="B8a-2Z-dsH"/>
+                        <outlet property="yellowFuel" destination="wA9-xw-UVx" id="ymh-5s-jpB"/>
                         <segue destination="VLh-Ws-n5R" kind="unwind" identifier="unwindHome" unwindAction="unwindToHomeWithSegue:" id="md1-LZ-hXR"/>
                     </connections>
                 </viewController>

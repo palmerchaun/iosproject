@@ -55,11 +55,10 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
             dest.scoreNum = score;
             dest.fuel = fuel
             dest.damage = damage
-            //add fuel level and maybe damage level
         }
         else{
             let dest = segue.destination as! GameViewController
-            dest.scoreNum = score;
+            dest.scoreNum = 0;
         }
     }
 }
