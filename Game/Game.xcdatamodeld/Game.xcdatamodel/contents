@@ -3,7 +3,15 @@
     <entity name="HighScore" representedClassName="HighScore" syncable="YES" codeGenerationType="class">
         <attribute name="score" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
+    <entity name="PausedGame" representedClassName="PausedGame" syncable="YES" codeGenerationType="class">
+        <attribute name="asteroidPos" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fuel" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="health" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="playerPos" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="vel" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
     <elements>
         <element name="HighScore" positionX="-63" positionY="-18" width="128" height="58"/>
+        <element name="PausedGame" positionX="-63" positionY="-9" width="128" height="118"/>
     </elements>
 </model>

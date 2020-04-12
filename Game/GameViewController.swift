@@ -49,11 +49,11 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
                 // Present the scene
                 view.presentScene(scene)
             }
-            
-            view.ignoresSiblingOrder = true
-            
-            view.showsFPS = true
-            view.showsNodeCount = true
+//
+//            view.ignoresSiblingOrder = true
+//
+//            view.showsFPS = true
+//            view.showsNodeCount = true
         }
         
         if let asset = NSDataAsset(name: musicOptions.randomElement()!){
@@ -68,13 +68,21 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     @IBAction func pause(_ sender: Any) {
-        let alert = UIAlertController(title: "Paused", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Home", style: .default, handler: {(action: UIAlertAction!) in self.back()}))
-        alert.addAction(UIAlertAction(title: "Resume", style: .default))
-        self.present(alert, animated: true)
+        if let view = self.view as! SKView? {
+            view.isPaused = true
+
+            let alert = UIAlertController(title: "Paused", message: "", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Home", style: .default, handler: {(action: UIAlertAction!) in self.back()}))
+            alert.addAction(UIAlertAction(title: "Resume", style: .default, handler: {(action: UIAlertAction!) in view.isPaused = false}))
+            self.present(alert, animated: true)
+        }
     }
     
     func back(){
+        /*
+         save current game
+        */
+        
         //stop animation
         self.performSegue(withIdentifier: "unwindHome", sender: self)
     }
@@ -83,9 +91,9 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         let dest = segue.destination as! ViewController
         //save data
         dest.resume.isEnabled = true
-        dest.score = scoreNum
-        dest.fuel = fuel
-        dest.damage = damage
+        //dest.score = scoreNum
+        //dest.fuel = fuel
+        //dest.damage = damage
     }
     
     override var shouldAutorotate: Bool {
