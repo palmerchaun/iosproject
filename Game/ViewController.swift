@@ -55,7 +55,22 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
-    @IBAction func unwindToHome(segue: UIStoryboardSegue){}
+    @IBAction func unwindToHome(segue: UIStoryboardSegue){
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
+        request.returnsObjectsAsFaults = false
+        
+        do{
+            
+            let record = try context.fetch(request) as![NSManagedObject]
+            
+            if record.count > 0 {
+                highScoreLabel.text = "\(record[0].value(forKey: "score") as! Int)"
+            }
+        }catch{
+            print("load score failed \(error)")
+        }
+    }
     
     @IBAction func newGamePressed(_ sender: Any) {
         menuMainSoundTrack?.stop()
