@@ -89,7 +89,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     override var shouldAutorotate: Bool {
-        return true
+        return false
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
