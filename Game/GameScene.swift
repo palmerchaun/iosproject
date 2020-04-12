@@ -13,7 +13,6 @@ import CoreData
 
 class GameScene: SKScene, AVAudioPlayerDelegate {
     
-    private var running = false
     private var ship : SKSpriteNode?
     private var asteroid : SKSpriteNode?
     private var created = false
@@ -98,7 +97,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     }
     
     func endGame(){
-        running = false
+        isPaused = true
         
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
@@ -132,18 +131,19 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         distanceLabel.text = "Score: \(distance)"
         health = 100
         healthLabel.text = "Health: \(health)"
-        running = true
+        
+        isPaused = false
     }
     
     func create(){
         self.addChild(ship!)
         self.addChild(asteroid!)
         distanceLabel.position.x = 200
-        distanceLabel.position.y = 550
+        distanceLabel.position.y = -550
         distanceLabel.color = SKColor.white
         self.addChild(distanceLabel)
         healthLabel.position.x = -200
-        healthLabel.position.y = 550
+        healthLabel.position.y = -550
         healthLabel.color = SKColor.white
         self.addChild(healthLabel)
         setup()
@@ -177,7 +177,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             create()
         }
         
-        if running{
+        if !isPaused{
             moveShip()
             moveAsteroid()
             updateDistance()
