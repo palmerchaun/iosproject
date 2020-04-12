@@ -16,6 +16,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     private var menuMainPressButton: AVAudioPlayer?
     
     @IBOutlet weak var resume: UIButton!
+    @IBOutlet weak var highScoreLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,10 +37,29 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
                 print("error")
             }
         }
+        
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
+        request.returnsObjectsAsFaults = false
+        
+        do{
+            
+            let record = try context.fetch(request) as![NSManagedObject]
+            
+            if record.count > 0 {
+                highScoreLabel.text = "\(record[0].value(forKey: "score") as! Int)"
+            }
+        }catch{
+            print("load score failed \(error)")
+        }
     }
     
     @IBAction func newGamePressed(_ sender: Any) {
         menuMainSoundTrack?.stop()
         menuMainPressButton?.play()
+    }
+    
+    override var shouldAutorotate: Bool {
+        return false
     }
 }
