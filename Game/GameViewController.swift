@@ -27,6 +27,11 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet weak var lightGreenDamage: UIButton!
     @IBOutlet weak var greenDamage: UIButton!
     
+    @IBOutlet weak var gameOver: UILabel!
+    @IBOutlet weak var finalScore: UILabel!
+    @IBOutlet weak var quit: UIButton!
+    @IBOutlet weak var pauseButton: UIButton!
+    
     private var music: AVAudioPlayer?
     private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
     private var gameScene: GameScene?
@@ -35,6 +40,12 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         score?.text = String(0)
+        
+        pauseButton?.isEnabled = true
+        gameOver?.isHidden = true
+        finalScore?.isHidden = true
+        quit?.isHidden = true
+        quit?.isEnabled = false
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -74,6 +85,15 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
+    func over(){
+        pauseButton?.isEnabled = false
+        gameOver?.isHidden = false
+        finalScore?.isHidden = false
+        finalScore?.text = "Final Score: " + (score?.text ?? "0")
+        quit?.isHidden = false
+        quit?.isEnabled = true
+    }
+    
     func back(){
         /*
          save current game
@@ -91,10 +111,11 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let dest = segue.destination as! ViewController
         //save data
-        dest.resume.isEnabled = true
-        //dest.score = scoreNum
-        //dest.fuel = fuel
-        //dest.damage = damage
+        dest.resume?.isEnabled = true
+        
+        if segue.identifier == "quit"{
+            dest.resume?.isEnabled = false
+        }
     }
     
     override var shouldAutorotate: Bool {

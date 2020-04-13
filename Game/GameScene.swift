@@ -170,6 +170,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     func endGame(gameOver permanent : Bool){
         isPaused = true
+        viewController.over()
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         if permanent{
             //this is where we save if the game is over, as in we lost
@@ -214,7 +215,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             } catch{
                 print("save game failed \(error)")
             }
-
         }
     }
     
