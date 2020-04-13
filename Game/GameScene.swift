@@ -79,6 +79,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             updateDistance()
             if crashing{
                 crashing = false
+                asteroid?.scale(to: CGSize(width: 250, height: 160))
             }
             
             fuelAmt -= 5
@@ -107,6 +108,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                     health -= 1
                 }
                 crashing = true
+                asteroid!.scale(to: CGSize.zero)
                 
                 switch(health){
                 case 0:
@@ -170,6 +172,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     func endGame(gameOver permanent : Bool){
         isPaused = true
+        viewController.over()
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         if permanent{
             //this is where we save if the game is over, as in we lost
@@ -214,7 +217,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             } catch{
                 print("save game failed \(error)")
             }
-
         }
     }
     
