@@ -55,6 +55,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         }
     }
     
+    
     @IBAction func unwindToHome(segue: UIStoryboardSegue){
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
@@ -70,8 +71,12 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         }catch{
             print("load score failed \(error)")
         }
+        menuMainSoundTrack?.play()
     }
-    
+    @IBAction func resumeGamePressed(_ sender: Any) {
+        menuMainSoundTrack?.stop()
+        menuMainPressButton?.play()
+    }
     @IBAction func newGamePressed(_ sender: Any) {
         menuMainSoundTrack?.stop()
         menuMainPressButton?.play()

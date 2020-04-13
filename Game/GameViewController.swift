@@ -29,7 +29,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     
     private var music: AVAudioPlayer?
     private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
-    
+    private var gameScene: GameScene?
     var fuel = 5
     var damage = 5
     var scoreNum = 0
@@ -42,10 +42,11 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
-            if let scene = SKScene(fileNamed: "GameScene") {
+            if let scene = GameScene(fileNamed: "GameScene") {
                 // Set the scale mode to scale to fit the window
                 scene.scaleMode = .aspectFill
-                
+                scene.viewController = self
+                gameScene = scene
                 // Present the scene
                 view.presentScene(scene)
             }
@@ -82,7 +83,8 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         /*
          save current game
         */
-        
+        gameScene?.endGame(gameOver: false)
+        music?.stop()
         //stop animation
         self.performSegue(withIdentifier: "unwindHome", sender: self)
     }
