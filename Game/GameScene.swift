@@ -76,10 +76,13 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         if asteroid!.position.y < -800{
             asteroid!.position.y = 800
             asteroid!.position.x = CGFloat(Int.random(in: -325...325))
-            updateDistance()
             if crashing{
                 crashing = false
+                vel = 2
                 asteroid?.scale(to: CGSize(width: 250, height: 160))
+            }
+            else{
+                updateDistance()
             }
             
             fuelAmt -= 5
@@ -104,7 +107,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         if abs(ship!.position.x - asteroid!.position.x) < (ship!.size.width + asteroid!.size.width) * 0.25 {
             if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
                 if !crashing{
-                    vel = 2
+                    vel = 10
                     health -= 1
                 }
                 crashing = true
