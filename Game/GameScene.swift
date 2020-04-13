@@ -77,6 +77,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         if asteroid!.position.y < -800{
             asteroid!.position.y = 800
             asteroid!.position.x = CGFloat(Int.random(in: -325...325))
+            updateDistance()
         }
     }
     
@@ -152,7 +153,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     }
     
     func updateDistance(){
-        distance += Int(vel / 10)
+        distance += 1
         distanceLabel.text = "Score: \(distance)"
     }
     
@@ -307,7 +308,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             moveShip()
             moveAsteroid()
             moveFuel()
-            updateDistance()
             collisionDetection()
             accelerate(deltaTime)
         }
