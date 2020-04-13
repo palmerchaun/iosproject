@@ -14,21 +14,19 @@ import CoreData
 class GameScene: SKScene, AVAudioPlayerDelegate {
     
     var viewController : GameViewController!
+    var isSavedGame = false
     
     private var ship : SKSpriteNode?
     private var asteroid : SKSpriteNode?
     private var fuel : SKSpriteNode?
-    private var fuelActive = false
     private var created = false
-    private var vel = 1.0
+    private var vel = 2.0
     private var moving = false
     private var thePos: CGPoint?
     private var distance: Int = 0
-    private var distanceLabel = SKLabelNode()
     private var health = 0
-    private var healthLabel = SKLabelNode()
-    private var fuelAmt = 0.0
-    private var fuelCounter = 0.0
+    private var fuelAmt = 0
+    private var fuelCounter = 0
     private var lastTime = -1.0
     private var crashing = false
     
@@ -79,16 +77,25 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             asteroid!.position.y = 800
             asteroid!.position.x = CGFloat(Int.random(in: -325...325))
             updateDistance()
+            if crashing{
+                crashing = false
+            }
+            
+            fuelAmt -= 5
+            fuelCounter -= 1
+            if fuelCounter <= 0 {
+                fuelCounter = 8
+                fuel!.position.x = CGFloat(Int.random(in: -275...275))
+                fuel!.position.y = 1600
+            }
+            if fuelAmt <= 0{
+                endGame(gameOver: true)
+            }
         }
     }
     
     func moveFuel(){
-        if fuelActive{
-            fuel!.position.y -= CGFloat(vel)
-            if fuel!.position.y < -800{
-                fuelActive = false
-            }
-        }
+        fuel!.position.y -= CGFloat(vel)
     }
     
     func collisionDetection(){
@@ -98,10 +105,8 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 if !crashing{
                     vel = 2
                     health -= 1
-                    healthLabel.text = "Health: \(health)"
                 }
                 crashing = true
-                //PLEASE SOMEONE MAKE THIS LOOK BETTER BUT IT WORKS
                 
                 switch(health){
                 case 0:
@@ -121,14 +126,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 if health == 0{
                     endGame(gameOver: true)
                 }
-            }else{
-                if crashing{
-                    crashing = false
-                }
-            }
-        } else{
-            if crashing{
-                crashing = false
             }
         }
         //for fuel
@@ -136,77 +133,46 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             if abs(ship!.position.y - fuel!.position.y) < (ship!.size.height + fuel!.size.height) * 0.4 {
                 fuelAmt = 100
                 fuel!.position.y = -800
-                fuelActive = false
+                viewController.redFuel.isHidden = false
+                viewController.orangeFuel.isHidden = false
+                viewController.yellowFuel.isHidden = false
+                viewController.lightGreenFuel.isHidden = false
+                viewController.greenFuel.isHidden = false
             }
         }
     }
     
     func updateDistance(){
         distance += 1
-        distanceLabel.text = "Score: \(distance)"
+        viewController.score.text = String(distance)
     }
     
     func accelerate(_ deltaTime : Double){
         if vel < 50{
             vel += 0.5*deltaTime
         }
-        fuelAmt -= deltaTime*1
-        //BAD CODE BELOW
-        if fuelAmt <= 0{
-            viewController.greenFuel.isHidden = true
-            viewController.lightGreenFuel.isHidden = true
-            viewController.yellowFuel.isHidden = true
-            viewController.orangeFuel.isHidden = true
+        
+        switch(fuelAmt){
+        case ...0:
             viewController.redFuel.isHidden = true
-        }else if fuelAmt <= 20{
-            viewController.greenFuel.isHidden = true
-            viewController.lightGreenFuel.isHidden = true
-            viewController.yellowFuel.isHidden = true
+        case 1...20:
             viewController.orangeFuel.isHidden = true
-            viewController.redFuel.isHidden = false
-        }else if fuelAmt <= 40{
-            viewController.greenFuel.isHidden = true
-            viewController.lightGreenFuel.isHidden = true
+        case 21...40:
             viewController.yellowFuel.isHidden = true
-            viewController.orangeFuel.isHidden = false
-            viewController.redFuel.isHidden = false
-        }else if fuelAmt <= 60{
-            viewController.greenFuel.isHidden = true
+        case 41...60:
             viewController.lightGreenFuel.isHidden = true
-            viewController.yellowFuel.isHidden = false
-            viewController.orangeFuel.isHidden = false
-            viewController.redFuel.isHidden = false
-        }else if fuelAmt <= 80{
+        case 61...80:
             viewController.greenFuel.isHidden = true
-            viewController.lightGreenFuel.isHidden = false
-            viewController.yellowFuel.isHidden = false
-            viewController.orangeFuel.isHidden = false
-            viewController.redFuel.isHidden = false
-        }else{
-            viewController.greenFuel.isHidden = false
-            viewController.lightGreenFuel.isHidden = false
-            viewController.yellowFuel.isHidden = false
-            viewController.orangeFuel.isHidden = false
-            viewController.redFuel.isHidden = false
-        }
-        //END OF BAD CODE
-        fuelCounter -= deltaTime*1
-        if fuelCounter <= 0 && !fuelActive{
-            fuelCounter = 20.0
-            fuel!.position.x = CGFloat(Int.random(in: 275...275))
-            fuel!.position.y = 800
-            fuelActive = true
-        }
-        if fuelAmt <= 0{
-            endGame(gameOver: true)
+        default:
+            break
         }
     }
     
     func endGame(gameOver permanent : Bool){
         isPaused = true
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         if permanent{
             //this is where we save if the game is over, as in we lost
-            let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
             request.returnsObjectsAsFaults = false
             
@@ -230,37 +196,127 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 print("load score failed \(error)")
             }
         }else{
-            print("Temp Test \(fuelAmt)")
-            
-            //this is where we save for resuming the game
+            let entity = NSEntityDescription.entity(forEntityName: "PausedGame", in: context)
+            let savedGame = NSManagedObject(entity: entity!, insertInto: context)
+            savedGame.setValue(asteroid!.position.x, forKey: "asteroidX")
+            savedGame.setValue(asteroid!.position.y, forKey: "asteroidY")
+            savedGame.setValue(distance, forKey: "distance")
+            savedGame.setValue(fuelCounter, forKey: "fuelCounter")
+            savedGame.setValue(fuelAmt, forKey: "fuelAmt")
+            savedGame.setValue(fuel!.position.x, forKey: "fuelX")
+            savedGame.setValue(fuel!.position.y, forKey: "fuelY")
+            savedGame.setValue(health, forKey: "health")
+            savedGame.setValue(ship!.position.x, forKey: "playerX")
+            savedGame.setValue(vel, forKey: "vel")
+
+            do {
+                try context.save()
+            } catch{
+                print("save game failed \(error)")
+            }
+
         }
     }
     
     func setup(){
-        ship!.position = CGPoint(x: 0, y: -400)
-        asteroid!.position = CGPoint(x: 0, y: 1000)
-        distance = 0
-        distanceLabel.text = "Score: \(distance)"
-        health = 5
-        fuelAmt = 100
-        healthLabel.text = "Health: \(health)"
-        fuelCounter = 10.0
-        fuelActive = false
-        isPaused = false
+        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "PausedGame")
+        request.returnsObjectsAsFaults = false
+        if !isSavedGame{
+            do {
+                let savedGame = try context.fetch(request) as![NSManagedObject]
+                if savedGame.count != 0{
+                    context.delete(savedGame[0])
+                    try context.save()
+                }
+            } catch{
+                print("Error checking for existing games \(error)")
+            }
+            ship!.position = CGPoint(x: 0, y: -400)
+            asteroid!.position = CGPoint(x: 0, y: 1000)
+            distance = 0
+            health = 5
+            fuelAmt = 100
+            fuelCounter = 8
+        } else{
+            do {
+                let savedGame = try context.fetch(request) as![NSManagedObject]
+                
+                let game = savedGame[0]
+                
+                ship!.position.x = game.value(forKey: "playerX") as! CGFloat
+                ship!.position.y = -400
+                asteroid!.position.x = game.value(forKey: "asteroidX") as! CGFloat
+                asteroid!.position.y = game.value(forKey: "asteroidY") as! CGFloat
+                distance = game.value(forKey: "distance") as! Int
+                health = game.value(forKey: "health") as! Int
+                fuelAmt = game.value(forKey: "fuelAmt") as! Int
+                fuelCounter = game.value(forKey: "fuelCounter") as! Int
+                
+                context.delete(game)
+            }catch{
+                print("Couldn't load saved game \(error)")
+            }
+
+            isPaused = false
+            viewController.score.text = String(distance)
+            switch(health){
+            case 0:
+                viewController.redDamage.isHidden = true
+                viewController.orangeDamage.isHidden = true
+                viewController.yellowDamage.isHidden = true
+                viewController.lightGreenDamage.isHidden = true
+                viewController.greenDamage.isHidden = true
+            case 0..<1:
+                viewController.orangeDamage.isHidden = true
+                viewController.yellowDamage.isHidden = true
+                viewController.lightGreenDamage.isHidden = true
+                viewController.greenDamage.isHidden = true
+            case 0..<2:
+                viewController.yellowDamage.isHidden = true
+                viewController.lightGreenDamage.isHidden = true
+                viewController.greenDamage.isHidden = true
+            case 0..<3:
+                viewController.lightGreenDamage.isHidden = true
+                viewController.greenDamage.isHidden = true
+            case 0..<4:
+                viewController.greenDamage.isHidden = true
+            default:
+                break
+            }
+            
+            switch(fuelAmt){
+            case 0:
+                viewController.redFuel.isHidden = true
+                viewController.orangeFuel.isHidden = true
+                viewController.yellowFuel.isHidden = true
+                viewController.lightGreenFuel.isHidden = true
+                viewController.greenFuel.isHidden = true
+            case 0..<1:
+                viewController.orangeFuel.isHidden = true
+                viewController.yellowFuel.isHidden = true
+                viewController.lightGreenFuel.isHidden = true
+                viewController.greenFuel.isHidden = true
+            case 0..<2:
+                viewController.yellowFuel.isHidden = true
+                viewController.lightGreenFuel.isHidden = true
+                viewController.greenFuel.isHidden = true
+            case 0..<3:
+                viewController.lightGreenFuel.isHidden = true
+                viewController.greenFuel.isHidden = true
+            case 0..<4:
+                viewController.greenFuel.isHidden = true
+            default:
+                break
+            }
+
+        }
     }
     
     func create(){
         self.addChild(ship!)
         self.addChild(asteroid!)
         self.addChild(fuel!)
-        distanceLabel.position.x = 200
-        distanceLabel.position.y = -550
-        distanceLabel.color = SKColor.white
-        self.addChild(distanceLabel)
-        healthLabel.position.x = -200
-        healthLabel.position.y = -550
-        healthLabel.color = SKColor.white
-        self.addChild(healthLabel)
         setup()
         created = true
     }

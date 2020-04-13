@@ -85,15 +85,12 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     override var shouldAutorotate: Bool {
         return false
     }
-    //override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //    if segue.identifier == "segue2" {
-    //        let dest = segue.destination as! GameViewController
-    //        dest.scoreNum = score;
-    //        dest.fuel = fuel
-    //        dest.damage = damage
-    //    }
-    //    else{
-    //        let dest = segue.destination as! GameViewController
-    //        dest.scoreNum = 0;
-    //    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let dest = segue.destination as! GameViewController
+
+        if segue.identifier == "resume" {
+            dest.isSavedGame = true
+        }
+    }
 }

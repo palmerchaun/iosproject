@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -30,7 +30,7 @@
                                 <state key="normal" title="Resume Game"/>
                                 <connections>
                                     <action selector="resumeGamePressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="dHn-WL-zul"/>
-                                    <segue destination="tci-Xs-kBV" kind="show" identifier="segue2" id="YVg-RY-ZB3"/>
+                                    <segue destination="tci-Xs-kBV" kind="show" identifier="resume" id="YVg-RY-ZB3"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HNT-pd-XqX">
@@ -60,7 +60,7 @@
                                 <state key="normal" title="New Game"/>
                                 <connections>
                                     <action selector="newGamePressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="nVE-CA-sPo"/>
-                                    <segue destination="tci-Xs-kBV" kind="show" identifier="segue" id="Vcy-SB-LmP"/>
+                                    <segue destination="tci-Xs-kBV" kind="show" identifier="new" id="Vcy-SB-LmP"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -85,15 +85,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lg6-76-hgl">
-                                <rect key="frame" x="26" y="55" width="53" height="36"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Pause"/>
-                                <connections>
-                                    <action selector="pause:" destination="tci-Xs-kBV" eventType="touchUpInside" id="L2d-BI-cKG"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="duJ-Go-GV5">
                                 <rect key="frame" x="254" y="63" width="146" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -172,6 +163,18 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lg6-76-hgl">
+                                <rect key="frame" x="36" y="57" width="36" height="36"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" backgroundImage="pause.circle" catalog="system">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="pause:" destination="tci-Xs-kBV" eventType="touchUpInside" id="L2d-BI-cKG"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="4yy-2Z-nZS"/>
@@ -198,14 +201,15 @@
             <point key="canvasLocation" x="1826.0869565217392" y="75"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Vcy-SB-LmP"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="greenSquare" width="55" height="52"/>
         <image name="lightGreenSquare" width="54" height="52"/>
         <image name="orangeSquare" width="58" height="54"/>
+        <image name="pause.circle" catalog="system" width="128" height="121"/>
         <image name="redSquare" width="56" height="55"/>
         <image name="yellowSquare" width="51" height="55"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="YVg-RY-ZB3"/>
-    </inferredMetricsTieBreakers>
 </document>

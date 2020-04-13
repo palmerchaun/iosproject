@@ -30,15 +30,11 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     private var music: AVAudioPlayer?
     private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
     private var gameScene: GameScene?
-    var fuel = 5
-    var damage = 5
-    var scoreNum = 0
-    
+    var isSavedGame = false
+        
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(scoreNum)
-        scoreNum += 1
-        score?.text = String(scoreNum)
+        score?.text = String(0)
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
@@ -47,14 +43,13 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
                 scene.scaleMode = .aspectFill
                 scene.viewController = self
                 gameScene = scene
+                
+                if isSavedGame{
+                    scene.isSavedGame = true
+                }
                 // Present the scene
                 view.presentScene(scene)
             }
-//
-//            view.ignoresSiblingOrder = true
-//
-//            view.showsFPS = true
-//            view.showsNodeCount = true
         }
         
         if let asset = NSDataAsset(name: musicOptions.randomElement()!){
@@ -87,6 +82,10 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         music?.stop()
         //stop animation
         self.performSegue(withIdentifier: "unwindHome", sender: self)
+    }
+    
+    func checkSavedGame(){
+        gameScene!.isSavedGame = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
