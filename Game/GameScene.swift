@@ -79,6 +79,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             updateDistance()
             if crashing{
                 crashing = false
+                asteroid?.scale(to: CGSize(width: 250, height: 160))
             }
             
             fuelAmt -= 5
@@ -107,6 +108,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                     health -= 1
                 }
                 crashing = true
+                asteroid!.scale(to: CGSize.zero)
                 
                 switch(health){
                 case 0:
