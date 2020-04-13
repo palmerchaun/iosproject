@@ -30,6 +30,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var fuelAmt = 0.0
     private var fuelCounter = 0.0
     private var lastTime = -1.0
+    private var crashing = false
     
     override func didMove(to view: SKView) {
         // Create shape node to use during mouse interaction
@@ -94,52 +95,40 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         //for asteroids
         if abs(ship!.position.x - asteroid!.position.x) < (ship!.size.width + asteroid!.size.width) * 0.25 {
             if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
-                vel = 2
-                health -= 1
-                healthLabel.text = "Health: \(health)"
+                if !crashing{
+                    vel = 2
+                    health -= 1
+                    healthLabel.text = "Health: \(health)"
+                }
+                crashing = true
                 //PLEASE SOMEONE MAKE THIS LOOK BETTER BUT IT WORKS
-                if health <= 0{
-                    viewController.greenDamage.isHidden = true
-                    viewController.lightGreenDamage.isHidden = true
-                    viewController.yellowDamage.isHidden = true
-                    viewController.orangeDamage.isHidden = true
+                
+                switch(health){
+                case 0:
                     viewController.redDamage.isHidden = true
-                }else if health <= 20{
-                    viewController.greenDamage.isHidden = true
-                    viewController.lightGreenDamage.isHidden = true
-                    viewController.yellowDamage.isHidden = true
+                case 1:
                     viewController.orangeDamage.isHidden = true
-                    viewController.redDamage.isHidden = false
-                }else if health <= 40{
-                    viewController.greenDamage.isHidden = true
-                    viewController.lightGreenDamage.isHidden = true
+                case 2:
                     viewController.yellowDamage.isHidden = true
-                    viewController.orangeDamage.isHidden = false
-                    viewController.redDamage.isHidden = false
-                }else if health <= 60{
-                    viewController.greenDamage.isHidden = true
+                case 3:
                     viewController.lightGreenDamage.isHidden = true
-                    viewController.yellowDamage.isHidden = false
-                    viewController.orangeDamage.isHidden = false
-                    viewController.redDamage.isHidden = false
-                }else if health <= 80{
+                case 4:
                     viewController.greenDamage.isHidden = true
-                    viewController.lightGreenDamage.isHidden = false
-                    viewController.yellowDamage.isHidden = false
-                    viewController.orangeDamage.isHidden = false
-                    viewController.redDamage.isHidden = false
-                }else{
-                    viewController.greenDamage.isHidden = false
-                    viewController.lightGreenDamage.isHidden = false
-                    viewController.yellowDamage.isHidden = false
-                    viewController.orangeDamage.isHidden = false
-                    viewController.redDamage.isHidden = false
+                default:
+                    break
                 }
                 
-                //END OF UGLY
                 if health == 0{
                     endGame(gameOver: true)
                 }
+            }else{
+                if crashing{
+                    crashing = false
+                }
+            }
+        } else{
+            if crashing{
+                crashing = false
             }
         }
         //for fuel
@@ -252,7 +241,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         asteroid!.position = CGPoint(x: 0, y: 1000)
         distance = 0
         distanceLabel.text = "Score: \(distance)"
-        health = 100
+        health = 5
         fuelAmt = 100
         healthLabel.text = "Health: \(health)"
         fuelCounter = 10.0
