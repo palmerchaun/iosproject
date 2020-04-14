@@ -76,9 +76,13 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         if asteroid!.position.y < -800{
             asteroid!.position.y = 800
             asteroid!.position.x = CGFloat(Int.random(in: -325...325))
-            updateDistance()
             if crashing{
                 crashing = false
+                vel = 2
+                asteroid?.scale(to: CGSize(width: 250, height: 160))
+            }
+            else{
+                updateDistance()
             }
             
             fuelAmt -= 5
@@ -103,10 +107,11 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         if abs(ship!.position.x - asteroid!.position.x) < (ship!.size.width + asteroid!.size.width) * 0.25 {
             if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
                 if !crashing{
-                    vel = 2
+                    vel = 10
                     health -= 1
                 }
                 crashing = true
+                asteroid!.scale(to: CGSize.zero)
                 
                 switch(health){
                 case 0:
@@ -170,6 +175,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     func endGame(gameOver permanent : Bool){
         isPaused = true
+        viewController.over()
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         if permanent{
             //this is where we save if the game is over, as in we lost
@@ -214,7 +220,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             } catch{
                 print("save game failed \(error)")
             }
-
         }
     }
     
