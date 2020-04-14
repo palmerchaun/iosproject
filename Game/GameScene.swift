@@ -27,13 +27,15 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var health = 0
     private var fuelAmt = 0
     private var fuelCounter = 0
-    private var lastTime = -1.0
+    
     private var crashing = false
     private var reason = "You ran out of fuel!"
     
     private var soundCollect: AVAudioPlayer?
     private var soundExplode: AVAudioPlayer?
     private var soundLose: AVAudioPlayer?
+    
+    public var lastTime = -1.0
     
     override func didMove(to view: SKView) {
         // Create shape node to use during mouse interaction
@@ -107,14 +109,14 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         //for asteroids
         if abs(ship!.position.x - asteroid!.position.x) < (ship!.size.width + asteroid!.size.width) * 0.25 {
             if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
-                health-=1
+                health -= 1
                 soundExplode?.play()
                 asteroid!.position.y = 2000
                 asteroid!.position.x = CGFloat(Int.random(in: -325...325))
                 updateHealthMeter()
                 fuelAmt -= 5
                 fuelCounter -= 1
-                
+                vel /= 2
                 if fuelCounter <= 0 {
                     fuelCounter = 8
                     fuel!.position.x = CGFloat(Int.random(in: -275...275))
@@ -357,7 +359,6 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
 
             isPaused = false
             viewController.score.text = String(distance)
-            
             
             updateFuelMeter()
             updateHealthMeter()
