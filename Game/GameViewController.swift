@@ -31,6 +31,8 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet weak var finalScore: UILabel!
     @IBOutlet weak var quit: UIButton!
     @IBOutlet weak var pauseButton: UIButton!
+    @IBOutlet weak var homeButton: UIButton!
+    @IBOutlet weak var resume: UIButton!
     
     private var music: AVAudioPlayer?
     private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
@@ -41,9 +43,16 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         super.viewDidLoad()
         score?.text = String(0)
         
+        resume?.isHidden = true
+        resume?.isEnabled = false
+        
+        homeButton?.isHidden = true
+        homeButton?.isEnabled = false
+        
         pauseButton?.isEnabled = true
         gameOver?.isHidden = true
         finalScore?.isHidden = true
+        
         quit?.isHidden = true
         quit?.isEnabled = false
         
@@ -78,30 +87,47 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         if let view = self.view as! SKView? {
             view.isPaused = true
 
-            let alert = UIAlertController(title: "Paused", message: "", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Home", style: .default, handler: {(action: UIAlertAction!) in self.back()}))
-            alert.addAction(UIAlertAction(title: "Resume", style: .default, handler: {(action: UIAlertAction!) in view.isPaused = false}))
-            self.present(alert, animated: true)
+            resume?.isHidden = false
+            resume?.isEnabled = true
+            
+            homeButton?.isHidden = false
+            homeButton?.isEnabled = true
+            
+            gameOver?.isHidden = false
+            gameOver?.text = "Paused"
+            
+            finalScore?.isHidden = false
+            finalScore?.text = "Score: " + (score?.text ?? "0")
+        }
+    }
+    
+    
+    @IBAction func resume(_ sender: Any) {
+        if let view = self.view as! SKView? {
+            view.isPaused = false
+            resume?.isHidden = true
+            resume?.isEnabled = false
+            
+            homeButton?.isHidden = true
+            homeButton?.isEnabled = false
+                   
+            pauseButton?.isEnabled = true
+            gameOver?.isHidden = true
+            finalScore?.isHidden = true
+                   
+            quit?.isHidden = true
+            quit?.isEnabled = false
         }
     }
     
     func over(){
         pauseButton?.isEnabled = false
         gameOver?.isHidden = false
+        gameOver?.text = "Game Over!"
         finalScore?.isHidden = false
         finalScore?.text = "Final Score: " + (score?.text ?? "0")
         quit?.isHidden = false
         quit?.isEnabled = true
-    }
-    
-    func back(){
-        /*
-         save current game
-        */
-        gameScene?.endGame(gameOver: false)
-        music?.stop()
-        //stop animation
-        self.performSegue(withIdentifier: "unwindHome", sender: self)
     }
     
     func checkSavedGame(){
@@ -109,11 +135,28 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let dest = segue.destination as! ViewController
-        //save data
-        dest.resume?.isEnabled = true
+        if segue.identifier == "Home"{
+            resume?.isHidden = true
+            resume?.isEnabled = false
+            
+            homeButton?.isHidden = true
+            homeButton?.isEnabled = false
+                   
+            pauseButton?.isEnabled = true
+            gameOver?.isHidden = true
+            finalScore?.isHidden = true
+                   
+            quit?.isHidden = true
+            quit?.isEnabled = false
+            
+            let dest = segue.destination as! ViewController
+            gameScene?.endGame(gameOver: false)
+            music?.stop()
+            dest.resume?.isEnabled = true
+        }
         
-        if segue.identifier == "quit"{
+        else if segue.identifier == "quit"{
+            let dest = segue.destination as! ViewController
             dest.resume?.isEnabled = false
         }
     }
