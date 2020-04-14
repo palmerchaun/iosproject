@@ -89,7 +89,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     @IBAction func pause(_ sender: Any) {
         if let view = self.view as! SKView? {
             view.isPaused = true
-
             resume?.isHidden = false
             resume?.isEnabled = true
             
@@ -108,6 +107,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     @IBAction func resume(_ sender: Any) {
         if let view = self.view as! SKView? {
             view.isPaused = false
+            gameScene?.lastTime = -1.0
             resume?.isHidden = true
             resume?.isEnabled = false
             
