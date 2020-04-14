@@ -33,15 +33,18 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var homeButton: UIButton!
     @IBOutlet weak var resume: UIButton!
+    @IBOutlet weak var reasonLabel: UILabel!
     
     private var music: AVAudioPlayer?
     private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
     private var gameScene: GameScene?
     var isSavedGame = false
+    var reason = ""
         
     override func viewDidLoad() {
         super.viewDidLoad()
         score?.text = String(0)
+        reasonLabel?.isHidden = true
         
         resume?.isHidden = true
         resume?.isEnabled = false
@@ -96,8 +99,8 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
             gameOver?.isHidden = false
             gameOver?.text = "Paused"
             
-            finalScore?.isHidden = false
-            finalScore?.text = "Score: " + (score?.text ?? "0")
+            reasonLabel?.isHidden = false
+            reasonLabel?.text = "Score: " + (score?.text ?? "0")
         }
     }
     
@@ -113,7 +116,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
                    
             pauseButton?.isEnabled = true
             gameOver?.isHidden = true
-            finalScore?.isHidden = true
+            reasonLabel?.isHidden = true
                    
             quit?.isHidden = true
             quit?.isEnabled = false
@@ -134,8 +137,13 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         pauseButton?.isEnabled = false
         gameOver?.isHidden = false
         gameOver?.text = "Game Over!"
+        
+        reasonLabel?.isHidden = false
+        reasonLabel?.text = reason
+        
         finalScore?.isHidden = false
         finalScore?.text = "Final Score: " + (score?.text ?? "0")
+        
         quit?.isHidden = false
         quit?.isEnabled = true
         music?.stop()

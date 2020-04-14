@@ -92,6 +92,8 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 fuel!.position.y = 1600
             }
             if fuelAmt <= 0{
+                reason = "You ran out of fuel!"
+                viewController.reason = reason
                 endGame(gameOver: true)
             }
         }
@@ -112,17 +114,15 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 updateHealthMeter()
                 fuelAmt -= 5
                 fuelCounter -= 1
+                
                 if fuelCounter <= 0 {
                     fuelCounter = 8
                     fuel!.position.x = CGFloat(Int.random(in: -275...275))
                     fuel!.position.y = 1600
                 }
-                if fuelAmt <= 0{
-                    reason = "You ran out of fuel!"
-                    endGame(gameOver: true)
-                }
                 if health == 0{
                     reason = "You took too much damage!"
+                    viewController.reason = reason
                     endGame(gameOver: true)
                 }
             }
