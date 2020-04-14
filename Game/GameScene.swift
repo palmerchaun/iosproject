@@ -111,12 +111,15 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
                 health -= 1
                 soundExplode?.play()
-                asteroid!.position.y = 2000
+                asteroid!.position.y = 1200
                 asteroid!.position.x = CGFloat(Int.random(in: -325...325))
                 updateHealthMeter()
                 fuelAmt -= 5
                 fuelCounter -= 1
                 vel /= 2
+                if vel < 2{
+                    vel = 2
+                }
                 if fuelCounter <= 0 {
                     fuelCounter = 8
                     fuel!.position.x = CGFloat(Int.random(in: -275...275))
@@ -230,7 +233,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     func accelerate(_ deltaTime : Double){
         if vel < 50{
-            vel += 0.5*deltaTime
+            vel += 0.7*deltaTime
         }
         
         updateFuelMeter()
