@@ -117,6 +117,16 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
                    
             quit?.isHidden = true
             quit?.isEnabled = false
+            
+            if let asset = NSDataAsset(name: musicOptions.randomElement()!){
+                do{
+                    music = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
+                    music?.numberOfLoops = -1
+                    music?.play()
+                }catch{
+                    print("error")
+                }
+            }
         }
     }
     
@@ -128,6 +138,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         finalScore?.text = "Final Score: " + (score?.text ?? "0")
         quit?.isHidden = false
         quit?.isEnabled = true
+        music?.stop()
     }
     
     func checkSavedGame(){

@@ -29,6 +29,11 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var fuelCounter = 0
     private var lastTime = -1.0
     private var crashing = false
+    private var reason = "You ran out of fuel!"
+    
+    private var soundCollect: AVAudioPlayer?
+    private var soundExplode: AVAudioPlayer?
+    private var soundLose: AVAudioPlayer?
     
     override func didMove(to view: SKView) {
         // Create shape node to use during mouse interaction
@@ -76,14 +81,8 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         if asteroid!.position.y < -800{
             asteroid!.position.y = 800
             asteroid!.position.x = CGFloat(Int.random(in: -325...325))
-            if crashing{
-                crashing = false
-                vel = 2
-                asteroid?.scale(to: CGSize(width: 250, height: 160))
-            }
-            else{
-                updateDistance()
-            }
+            
+            updateDistance()
             
             fuelAmt -= 5
             fuelCounter -= 1
@@ -106,29 +105,24 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         //for asteroids
         if abs(ship!.position.x - asteroid!.position.x) < (ship!.size.width + asteroid!.size.width) * 0.25 {
             if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
-                if !crashing{
-                    vel = 10
-                    health -= 1
+                health-=1
+                soundExplode?.play()
+                asteroid!.position.y = 2000
+                asteroid!.position.x = CGFloat(Int.random(in: -325...325))
+                updateHealthMeter()
+                fuelAmt -= 5
+                fuelCounter -= 1
+                if fuelCounter <= 0 {
+                    fuelCounter = 8
+                    fuel!.position.x = CGFloat(Int.random(in: -275...275))
+                    fuel!.position.y = 1600
                 }
-                crashing = true
-                asteroid!.scale(to: CGSize.zero)
-                
-                switch(health){
-                case 0:
-                    viewController.redDamage.isHidden = true
-                case 1:
-                    viewController.orangeDamage.isHidden = true
-                case 2:
-                    viewController.yellowDamage.isHidden = true
-                case 3:
-                    viewController.lightGreenDamage.isHidden = true
-                case 4:
-                    viewController.greenDamage.isHidden = true
-                default:
-                    break
+                if fuelAmt <= 0{
+                    reason = "You ran out of fuel!"
+                    endGame(gameOver: true)
                 }
-                
                 if health == 0{
+                    reason = "You took too much damage!"
                     endGame(gameOver: true)
                 }
             }
@@ -138,11 +132,8 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             if abs(ship!.position.y - fuel!.position.y) < (ship!.size.height + fuel!.size.height) * 0.4 {
                 fuelAmt = 100
                 fuel!.position.y = -800
-                viewController.redFuel.isHidden = false
-                viewController.orangeFuel.isHidden = false
-                viewController.yellowFuel.isHidden = false
-                viewController.lightGreenFuel.isHidden = false
-                viewController.greenFuel.isHidden = false
+                soundCollect?.play()
+                updateFuelMeter()
             }
         }
     }
@@ -152,32 +143,103 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         viewController.score.text = String(distance)
     }
     
+    func updateFuelMeter(){
+        switch(fuelAmt){
+        case 0:
+            viewController.redFuel.isHidden = true
+            viewController.orangeFuel.isHidden = true
+            viewController.yellowFuel.isHidden = true
+            viewController.lightGreenFuel.isHidden = true
+            viewController.greenFuel.isHidden = true
+        case 0...20:
+            viewController.redFuel.isHidden = false
+            viewController.orangeFuel.isHidden = true
+            viewController.yellowFuel.isHidden = true
+            viewController.lightGreenFuel.isHidden = true
+            viewController.greenFuel.isHidden = true
+        case 0...40:
+            viewController.redFuel.isHidden = false
+            viewController.orangeFuel.isHidden = false
+            viewController.yellowFuel.isHidden = true
+            viewController.lightGreenFuel.isHidden = true
+            viewController.greenFuel.isHidden = true
+        case 0...60:
+            viewController.redFuel.isHidden = false
+            viewController.orangeFuel.isHidden = false
+            viewController.yellowFuel.isHidden = false
+            viewController.lightGreenFuel.isHidden = true
+            viewController.greenFuel.isHidden = true
+        case 0...80:
+            viewController.redFuel.isHidden = false
+            viewController.orangeFuel.isHidden = false
+            viewController.yellowFuel.isHidden = false
+            viewController.lightGreenFuel.isHidden = false
+            viewController.greenFuel.isHidden = true
+        default:
+            viewController.redFuel.isHidden = false
+            viewController.orangeFuel.isHidden = false
+            viewController.yellowFuel.isHidden = false
+            viewController.lightGreenFuel.isHidden = false
+            viewController.greenFuel.isHidden = false
+            break
+        }
+    }
+    func updateHealthMeter(){
+        switch(health){
+        case 0:
+            viewController.redDamage.isHidden = true
+            viewController.orangeDamage.isHidden = true
+            viewController.yellowDamage.isHidden = true
+            viewController.lightGreenDamage.isHidden = true
+            viewController.greenDamage.isHidden = true
+        case 0...1:
+            viewController.redDamage.isHidden = false
+            viewController.orangeDamage.isHidden = true
+            viewController.yellowDamage.isHidden = true
+            viewController.lightGreenDamage.isHidden = true
+            viewController.greenDamage.isHidden = true
+        case 0...2:
+            viewController.redDamage.isHidden = false
+            viewController.orangeDamage.isHidden = false
+            viewController.yellowDamage.isHidden = true
+            viewController.lightGreenDamage.isHidden = true
+            viewController.greenDamage.isHidden = true
+        case 0...3:
+            viewController.redDamage.isHidden = false
+            viewController.orangeDamage.isHidden = false
+            viewController.yellowDamage.isHidden = false
+            viewController.lightGreenDamage.isHidden = true
+            viewController.greenDamage.isHidden = true
+        case 0...4:
+            viewController.redDamage.isHidden = false
+            viewController.orangeDamage.isHidden = false
+            viewController.yellowDamage.isHidden = false
+            viewController.lightGreenDamage.isHidden = false
+            viewController.greenDamage.isHidden = true
+        default:
+            viewController.redDamage.isHidden = false
+            viewController.orangeDamage.isHidden = false
+            viewController.yellowDamage.isHidden = false
+            viewController.lightGreenDamage.isHidden = false
+            viewController.greenDamage.isHidden = false
+            break
+        }
+    }
+    
     func accelerate(_ deltaTime : Double){
         if vel < 50{
             vel += 0.5*deltaTime
         }
         
-        switch(fuelAmt){
-        case ...0:
-            viewController.redFuel.isHidden = true
-        case 1...20:
-            viewController.orangeFuel.isHidden = true
-        case 21...40:
-            viewController.yellowFuel.isHidden = true
-        case 41...60:
-            viewController.lightGreenFuel.isHidden = true
-        case 61...80:
-            viewController.greenFuel.isHidden = true
-        default:
-            break
-        }
+        updateFuelMeter()
     }
     
     func endGame(gameOver permanent : Bool){
         isPaused = true
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         if permanent{
-            viewController.over()
+            soundLose?.play()
+            viewController.over()//maybe pass reason as a param to tell the user why they lost. Losing from fuel feels kinda random right now if you're not paying attention
             //this is where we save if the game is over, as in we lost
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
             request.returnsObjectsAsFaults = false
@@ -224,6 +286,35 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     }
     
     func setup(){
+        
+        //sound setup start
+        
+        if let asset = NSDataAsset(name: "menu_highlight_1"){
+            do{
+                soundCollect = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
+                soundCollect?.volume = 5
+            }catch{
+                print("error loading sound")
+            }
+        }
+        if let asset = NSDataAsset(name: "explosion_1_small"){
+            do{
+                soundExplode = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
+                soundExplode?.volume = 5
+            }catch{
+                print("error loading sound")
+            }
+        }
+        if let asset = NSDataAsset(name: "jingle_failure_3"){
+            do{
+                soundLose = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
+            }catch{
+                print("error loading sound")
+            }
+        }
+        
+        //sound setup end
+        
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "PausedGame")
         request.returnsObjectsAsFaults = false
@@ -257,6 +348,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 health = game.value(forKey: "health") as! Int
                 fuelAmt = game.value(forKey: "fuelAmt") as! Int
                 fuelCounter = game.value(forKey: "fuelCounter") as! Int
+                vel = game.value(forKey: "vel") as! Double
                 
                 context.delete(game)
             }catch{
@@ -265,56 +357,10 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
 
             isPaused = false
             viewController.score.text = String(distance)
-            switch(health){
-            case 0:
-                viewController.redDamage.isHidden = true
-                viewController.orangeDamage.isHidden = true
-                viewController.yellowDamage.isHidden = true
-                viewController.lightGreenDamage.isHidden = true
-                viewController.greenDamage.isHidden = true
-            case 0..<1:
-                viewController.orangeDamage.isHidden = true
-                viewController.yellowDamage.isHidden = true
-                viewController.lightGreenDamage.isHidden = true
-                viewController.greenDamage.isHidden = true
-            case 0..<2:
-                viewController.yellowDamage.isHidden = true
-                viewController.lightGreenDamage.isHidden = true
-                viewController.greenDamage.isHidden = true
-            case 0..<3:
-                viewController.lightGreenDamage.isHidden = true
-                viewController.greenDamage.isHidden = true
-            case 0..<4:
-                viewController.greenDamage.isHidden = true
-            default:
-                break
-            }
             
-            switch(fuelAmt){
-            case 0:
-                viewController.redFuel.isHidden = true
-                viewController.orangeFuel.isHidden = true
-                viewController.yellowFuel.isHidden = true
-                viewController.lightGreenFuel.isHidden = true
-                viewController.greenFuel.isHidden = true
-            case 0..<1:
-                viewController.orangeFuel.isHidden = true
-                viewController.yellowFuel.isHidden = true
-                viewController.lightGreenFuel.isHidden = true
-                viewController.greenFuel.isHidden = true
-            case 0..<2:
-                viewController.yellowFuel.isHidden = true
-                viewController.lightGreenFuel.isHidden = true
-                viewController.greenFuel.isHidden = true
-            case 0..<3:
-                viewController.lightGreenFuel.isHidden = true
-                viewController.greenFuel.isHidden = true
-            case 0..<4:
-                viewController.greenFuel.isHidden = true
-            default:
-                break
-            }
-
+            
+            updateFuelMeter()
+            updateHealthMeter()
         }
     }
     
