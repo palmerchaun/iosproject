@@ -111,7 +111,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             if abs(ship!.position.y - asteroid!.position.y) < (ship!.size.height + asteroid!.size.height) * 0.4 {
                 health -= 1
                 soundExplode?.play()
-                asteroid!.position.y = 1000
+                asteroid!.position.y = 1200
                 asteroid!.position.x = CGFloat(Int.random(in: -325...325))
                 updateHealthMeter()
                 fuelAmt -= 5

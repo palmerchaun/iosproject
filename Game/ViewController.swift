@@ -53,6 +53,20 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         }catch{
             print("load score failed \(error)")
         }
+        
+        let request2 = NSFetchRequest<NSFetchRequestResult>(entityName: "PausedGame")
+        request2.returnsObjectsAsFaults = false
+        
+        do{
+            let savedGames = try context.fetch(request) as![NSManagedObject]
+            
+            if savedGames.count > 0{
+                resume.isEnabled = true
+                
+            }
+        } catch{
+            print("Couldn't load saved game \(error)")
+        }
     }
     
     
