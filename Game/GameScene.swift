@@ -175,9 +175,9 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     func endGame(gameOver permanent : Bool){
         isPaused = true
-        viewController.over()
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         if permanent{
+            viewController.over()
             //this is where we save if the game is over, as in we lost
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
             request.returnsObjectsAsFaults = false

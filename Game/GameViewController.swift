@@ -136,19 +136,6 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Home"{
-            resume?.isHidden = true
-            resume?.isEnabled = false
-            
-            homeButton?.isHidden = true
-            homeButton?.isEnabled = false
-                   
-            pauseButton?.isEnabled = true
-            gameOver?.isHidden = true
-            finalScore?.isHidden = true
-                   
-            quit?.isHidden = true
-            quit?.isEnabled = false
-            
             let dest = segue.destination as! ViewController
             gameScene?.endGame(gameOver: false)
             music?.stop()
