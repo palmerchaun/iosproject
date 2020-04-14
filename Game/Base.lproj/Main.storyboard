@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,7 +11,7 @@
         <!--View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="BV1-FR-VrT" customClass="ViewController" customModule="Game" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="BV1-FR-VrT" customClass="ViewController" customModule="SpaceRacer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="3se-qz-xqx">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,7 +74,7 @@
         <!--Game View Controller-->
         <scene sceneID="8m6-4Z-hdq">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="tci-Xs-kBV" customClass="GameViewController" customModule="Game" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="tci-Xs-kBV" customClass="GameViewController" customModule="SpaceRacer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" multipleTouchEnabled="YES" contentMode="scaleToFill" id="M9J-hT-Y0i" customClass="SKView">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -177,9 +177,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X2i-W2-ZV4">
-                                <rect key="frame" x="171" y="489" width="57" height="49"/>
+                                <rect key="frame" x="174" y="490" width="51" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                 <state key="normal" title="Quit">
                                     <color key="titleColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -251,15 +251,15 @@
             <point key="canvasLocation" x="1826.0869565217392" y="75"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="Vcy-SB-LmP"/>
-    </inferredMetricsTieBreakers>
     <resources>
         <image name="greenSquare" width="55" height="52"/>
         <image name="lightGreenSquare" width="54" height="52"/>
         <image name="orangeSquare" width="58" height="54"/>
-        <image name="pause.circle" catalog="system" width="128" height="121"/>
+        <image name="pause.circle" catalog="system" width="64" height="60"/>
         <image name="redSquare" width="56" height="55"/>
         <image name="yellowSquare" width="51" height="55"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Vcy-SB-LmP"/>
+    </inferredMetricsTieBreakers>
 </document>
