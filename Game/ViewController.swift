@@ -105,5 +105,8 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         if segue.identifier == "resume" {
             dest.isSavedGame = true
         }
+        else if segue.identifier == "time"{
+            dest.setTimer = true
+        }
     }
 }

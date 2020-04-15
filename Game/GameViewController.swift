@@ -34,12 +34,14 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     @IBOutlet weak var homeButton: UIButton!
     @IBOutlet weak var resume: UIButton!
     @IBOutlet weak var reasonLabel: UILabel!
+    @IBOutlet weak var timer: UILabel!
     
     private var music: AVAudioPlayer?
     private var musicOptions = ["Soundtrack_Moon Base","Soundtrack2_Cerulean","Soundtrack3_20XX"]
     private var gameScene: GameScene?
     var isSavedGame = false
     var reason = ""
+    var setTimer = false
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +60,13 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         
         quit?.isHidden = true
         quit?.isEnabled = false
+        
+        if setTimer{
+            timer?.isHidden = false
+        }
+        else{
+            timer?.isHidden = true
+        }
         
         if let view = self.view as! SKView? {
             // Load the SKScene from 'GameScene.sks'
