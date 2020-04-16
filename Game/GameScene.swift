@@ -15,6 +15,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     var viewController : GameViewController!
     var isSavedGame = false
+    var timeMode = false
     
     private var ship : SKSpriteNode?
     private var asteroid : SKSpriteNode?
@@ -27,13 +28,16 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var health = 0
     private var fuelAmt = 0
     private var fuelCounter = 0
-    
+    private var timer = 0.0
     private var crashing = false
     private var reason = "You ran out of fuel!"
     
     private var soundCollect: AVAudioPlayer?
     private var soundExplode: AVAudioPlayer?
     private var soundLose: AVAudioPlayer?
+    private var soundWin: AVAudioPlayer?
+    
+    private var timeTrialGoal = 10//should probably be 100, for testing make it lower
     
     public var lastTime = -1.0
     
@@ -86,6 +90,10 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             
             updateDistance()
             
+            if (timeMode && distance >= timeTrialGoal){
+                endGame(gameOver: true, timedWin: true)
+            }
+            
             fuelAmt -= 5
             fuelCounter -= 1
             if fuelCounter <= 0 {
@@ -96,7 +104,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             if fuelAmt <= 0{
                 reason = "You ran out of fuel!"
                 viewController.reason = reason
-                endGame(gameOver: true)
+                endGame(gameOver: true, timedWin: false)
             }
         }
     }
@@ -128,7 +136,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 if health == 0{
                     reason = "You took too much damage!"
                     viewController.reason = reason
-                    endGame(gameOver: true)
+                    endGame(gameOver: true, timedWin: false)
                 }
             }
         }
@@ -239,12 +247,39 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         updateFuelMeter()
     }
     
-    func endGame(gameOver permanent : Bool){
+    func getTimer(currentTime time : Double) -> String{
+        let minutes = Int(time/60)
+        let seconds = Int(time.truncatingRemainder(dividingBy: 60))
+        
+        var minString = String(minutes)
+        if minString.count == 1{
+            minString = "0" + minString
+        }
+        var secString = String(seconds)
+        if secString.count == 1{
+            secString = "0" + secString
+        }
+        
+        return minString + ":" + secString
+    }
+    
+    func endGame(gameOver permanent : Bool, timedWin win : Bool){
         isPaused = true
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         if permanent{
-            soundLose?.play()
-            viewController.over()//maybe pass reason as a param to tell the user why they lost. Losing from fuel feels kinda random right now if you're not paying attention
+            //it's only possible to win in timed mode
+            if (win){
+                soundWin?.play()
+                viewController.overTimed(getTimer(currentTime: timer))
+                // UPDATE BEST TIME CORE DATA HERE
+                // when saving the data, use the timer variable as the time. It is a double, in seconds. If you ever want to show the time, use the getTimer() method, it will convert the seconds into a format that is human readable. You can copy that function wherever you need it.
+                
+                // It's fine to run the rest of the code after this, if someone gets a high score this way I don't see why we won't count it. The max high score they could get in time trials is 100.
+            }else{
+                soundLose?.play()
+                viewController.over()
+            }
+            
             //this is where we save if the game is over, as in we lost
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "HighScore")
             request.returnsObjectsAsFaults = false
@@ -313,6 +348,13 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         if let asset = NSDataAsset(name: "jingle_failure_3"){
             do{
                 soundLose = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
+            }catch{
+                print("error loading sound")
+            }
+        }
+        if let asset = NSDataAsset(name: "jingle_success_3"){
+            do{
+                soundWin = try AVAudioPlayer(data: asset.data, fileTypeHint: "mp3")
             }catch{
                 print("error loading sound")
             }
@@ -410,6 +452,8 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             moveFuel()
             collisionDetection()
             accelerate(deltaTime)
+            timer+=deltaTime
+            viewController.timer.text = getTimer(currentTime: timer)
         }
     }
 }

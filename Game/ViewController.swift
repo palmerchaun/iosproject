@@ -17,6 +17,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     
     @IBOutlet weak var resume: UIButton!
     @IBOutlet weak var highScoreLabel: UILabel!
+    @IBOutlet weak var timetrial: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +92,10 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         menuMainPressButton?.play()
     }
     @IBAction func newGamePressed(_ sender: Any) {
+        menuMainSoundTrack?.stop()
+        menuMainPressButton?.play()
+    }
+    @IBAction func timeTrialPressed(_ sender: Any) {
         menuMainSoundTrack?.stop()
         menuMainPressButton?.play()
     }

@@ -75,7 +75,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
                 scene.scaleMode = .aspectFill
                 scene.viewController = self
                 gameScene = scene
-                
+                scene.timeMode = setTimer
                 if isSavedGame{
                     scene.isSavedGame = true
                 }
@@ -158,6 +158,23 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         music?.stop()
     }
     
+    func overTimed(_ timeTaken : String){
+        //note: don't save data here. Do it in the GameScene class
+        pauseButton?.isEnabled = false
+        gameOver?.isHidden = false
+        gameOver?.text = "You win!"
+        
+        reasonLabel?.isHidden = false
+        reasonLabel?.text = ""//if we want to put like "You beat your best time" this is where we would put it
+        
+        finalScore?.isHidden = false
+        finalScore?.text = "Time taken: " + timeTaken
+        
+        quit?.isHidden = false
+        quit?.isEnabled = true
+        music?.stop()
+    }
+    
     func checkSavedGame(){
         gameScene!.isSavedGame = true
     }
@@ -165,7 +182,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Home"{
             let dest = segue.destination as! ViewController
-            gameScene?.endGame(gameOver: false)
+            gameScene?.endGame(gameOver: false, timedWin: false)
             music?.stop()
             dest.resume?.isEnabled = true
         }

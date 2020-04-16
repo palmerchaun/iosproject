@@ -53,6 +53,7 @@
                                 <fontDescription key="fontDescription" name="MarkerFelt-Wide" family="Marker Felt" pointSize="28"/>
                                 <state key="normal" title="Time Trial"/>
                                 <connections>
+                                    <action selector="timeTrialPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="NFg-Dw-kq4"/>
                                     <segue destination="tci-Xs-kBV" kind="show" identifier="time" id="Prl-pC-Y3o"/>
                                 </connections>
                             </button>
@@ -74,6 +75,7 @@
                     <connections>
                         <outlet property="highScoreLabel" destination="8hF-xW-bAW" id="FeS-Q3-3pn"/>
                         <outlet property="resume" destination="zTQ-i4-B7s" id="udm-lk-JcI"/>
+                        <outlet property="timetrial" destination="c0x-tC-UrZ" id="Gxu-gO-RYM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
