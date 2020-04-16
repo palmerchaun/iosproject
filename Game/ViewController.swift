@@ -17,6 +17,7 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
     
     @IBOutlet weak var resume: UIButton!
     @IBOutlet weak var highScoreLabel: UILabel!
+    @IBOutlet weak var bestTimeLabel: UILabel!
     @IBOutlet weak var timetrial: UIButton!
     
     override func viewDidLoad() {
@@ -67,6 +68,20 @@ class ViewController: UIViewController, AVAudioPlayerDelegate {
         } catch{
             print("Couldn't load saved game \(error)")
         }
+        
+        let request3 = NSFetchRequest<NSFetchRequestResult>(entityName: "BestTime")
+        request3.returnsObjectsAsFaults = false
+        
+        do{
+            let bestTimes = try context.fetch(request3) as![NSManagedObject]
+            
+            if bestTimes.count > 0{
+                bestTimeLabel.text = GameScene.getTimer(currentTime: bestTimes[0].value(forKey: "time") as! Double)
+            }
+        } catch{
+            print("Couldn't get best time \(error)")
+        }
+        
     }
     
     
