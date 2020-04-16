@@ -37,7 +37,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var soundLose: AVAudioPlayer?
     private var soundWin: AVAudioPlayer?
     
-    private var timeTrialGoal = 10//should probably be 100, for testing make it lower
+    private var timeTrialGoal = 100
     
     public var lastTime = -1.0
     
@@ -247,7 +247,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         updateFuelMeter()
     }
     
-    func getTimer(currentTime time : Double) -> String{
+    static func getTimer(currentTime time : Double) -> String{
         let minutes = Int(time/60)
         let seconds = Int(time.truncatingRemainder(dividingBy: 60))
         
@@ -270,11 +270,31 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             //it's only possible to win in timed mode
             if (win){
                 soundWin?.play()
-                viewController.overTimed(getTimer(currentTime: timer))
-                // UPDATE BEST TIME CORE DATA HERE
-                // when saving the data, use the timer variable as the time. It is a double, in seconds. If you ever want to show the time, use the getTimer() method, it will convert the seconds into a format that is human readable. You can copy that function wherever you need it.
+                viewController.overTimed(GameScene.getTimer(currentTime: timer))
                 
-                // It's fine to run the rest of the code after this, if someone gets a high score this way I don't see why we won't count it. The max high score they could get in time trials is 100.
+                // UPDATE BEST TIME CORE DATA HERE
+                let scoreRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "BestTime")
+                scoreRequest.returnsObjectsAsFaults = false
+                
+                do{
+                    let times = try context.fetch(scoreRequest) as![NSManagedObject]
+                    
+                    if times.count > 0{
+                        let bestTime = times[0]
+                        if timer < bestTime.value(forKey: "time") as! Double{
+                            bestTime.setValue(timer, forKey: "time")
+                        }
+                    } else{
+                        let timeEntity = NSEntityDescription.entity(forEntityName: "BestTime", in: context)
+                        let bestTime = NSManagedObject(entity: timeEntity!, insertInto: context)
+                        bestTime.setValue(timer, forKey: "time")
+                    }
+                    
+                    try context.save()
+                }catch{
+                    print("Failed saving best time \(error)")
+                }
+                
             }else{
                 soundLose?.play()
                 viewController.over()
@@ -316,6 +336,11 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             savedGame.setValue(health, forKey: "health")
             savedGame.setValue(ship!.position.x, forKey: "playerX")
             savedGame.setValue(vel, forKey: "vel")
+            
+            if timeMode{
+                savedGame.setValue(timeMode, forKey: "timeMode")
+                savedGame.setValue(timer, forKey: "time")
+            }
 
             do {
                 try context.save()
@@ -397,6 +422,13 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
                 fuelCounter = game.value(forKey: "fuelCounter") as! Int
                 vel = game.value(forKey: "vel") as! Double
                 
+                if game.value(forKey: "isTimeMode") as! Bool{
+                    timeMode = true
+                    timer = game.value(forKey: "time") as! Double
+                    viewController.setTimer = true
+                    viewController.timer.isHidden = false
+                }
+                
                 context.delete(game)
             }catch{
                 print("Couldn't load saved game \(error)")
@@ -443,6 +475,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         if !created{
             create()
         }
+        
         //this should run regardless of being paused. Makes speed consistent regardless of framerate
         let deltaTime = lastTime > 0 ? currentTime - lastTime : 0
         lastTime = currentTime
@@ -453,7 +486,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
             collisionDetection()
             accelerate(deltaTime)
             timer+=deltaTime
-            viewController.timer.text = getTimer(currentTime: timer)
+            viewController.timer.text = GameScene.getTimer(currentTime: timer)
         }
     }
 }
