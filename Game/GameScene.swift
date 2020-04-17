@@ -20,6 +20,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var ship : SKSpriteNode?
     private var asteroid : SKSpriteNode?
     private var fuel : SKSpriteNode?
+    private var finishLine : SKShapeNode?
     private var created = false
     private var vel = 2.0
     private var moving = false
@@ -37,7 +38,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var soundLose: AVAudioPlayer?
     private var soundWin: AVAudioPlayer?
     
-    private var timeTrialGoal = 100
+    private var timeTrialGoal = 50
     
     public var lastTime = -1.0
     
@@ -47,6 +48,10 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
         ship?.size = CGSize(width: 120, height: 200)
         self.asteroid = SKSpriteNode.init(imageNamed: "meteor")
         asteroid?.size = CGSize(width: 250, height: 160)
+        self.finishLine = SKShapeNode.init(rectOf: CGSize.init(width: 650, height: 50))
+        finishLine?.fillColor = UIColor.systemRed
+        finishLine?.strokeColor = UIColor.systemRed
+        finishLine?.position.y = 1300
         self.fuel = SKSpriteNode.init(imageNamed: "fuel")
         fuel?.size = CGSize(width: 75, height: 75)
         fuel?.position.y = -800
@@ -84,6 +89,9 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     func moveAsteroid(){
         asteroid!.position.y -= CGFloat(vel)
+        if(distance == 49 && timeMode){
+            finishLine!.position.y -= CGFloat(vel)
+        }
         if asteroid!.position.y < -800{
             asteroid!.position.y = 800
             asteroid!.position.x = CGFloat(Int.random(in: -325...325))
@@ -443,9 +451,11 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     }
     
     func create(){
+        self.addChild(finishLine!)
         self.addChild(ship!)
         self.addChild(asteroid!)
         self.addChild(fuel!)
+        
         setup()
         created = true
     }
