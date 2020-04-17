@@ -38,7 +38,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     private var soundLose: AVAudioPlayer?
     private var soundWin: AVAudioPlayer?
     
-    private var timeTrialGoal = 50
+    private var timeTrialGoal = 80
     
     public var lastTime = -1.0
     
@@ -89,7 +89,7 @@ class GameScene: SKScene, AVAudioPlayerDelegate {
     
     func moveAsteroid(){
         asteroid!.position.y -= CGFloat(vel)
-        if(distance == 49 && timeMode){
+        if(distance == timeTrialGoal - 1 && timeMode){
             finishLine!.position.y -= CGFloat(vel)
         }
         if asteroid!.position.y < -800{
