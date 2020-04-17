@@ -162,7 +162,7 @@ class GameViewController: UIViewController, AVAudioPlayerDelegate {
         //note: don't save data here. Do it in the GameScene class
         pauseButton?.isEnabled = false
         gameOver?.isHidden = false
-        gameOver?.text = "You win!"
+        gameOver?.text = "You Won!"
         
         reasonLabel?.isHidden = false
         reasonLabel?.text = ""//if we want to put like "You beat your best time" this is where we would put it
